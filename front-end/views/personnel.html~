@@ -1,0 +1,533 @@
+<nav class="nav-extended teal accent-4">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">&nbsp;App Name</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="" ng-controller="UserController" ng-click="logout()">Logout</a></li>
+            </ul>
+        <ul class="tabs tabs-transparent" id="maintabs">
+            <li class="tab"><a href="#plant">Plants</a></li>
+            <li class="tab"><a href="#activity">Activities</a></li>
+            <li class="tab"><a href="#plot">Plots</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!--PLANTS-->
+<div id="plant" class="col s12 container" ng-controller="PlantController">
+    <div class="row">
+        <form>
+            <div class="row">
+                
+                <div class="col s12 m4">
+                    <button class="btn waves-effect waves-light cyan modal-trigger" data-target="addplant" name="action" style="margin-top: 20px;">
+                        Add Plant <i class="material-icons right">add_circle</i>
+                    </button>
+
+                    <!--add plant modal-->
+                    <div id="addplant" class="small modal">
+                        <div class="modal-content">
+                            <h4 class="cyan-text"><i class="small material-icons">add</i> Add Plant</h4>
+                            <li class="divider"></li><br>
+                            <form>
+                                <div class="row">
+                                    <div class="input-field col s12 m6">
+                                        <input id="rows" type="text" class="validate" ng-model="plant.scientificName">
+                                        <label for="rows">Scientific Name</label>
+                                    </div>
+                                    <div class="input-field col s12 m6">
+                                        <input id="columns" type="text" class="validate" ng-model="plant.commonName">
+                                        <label for="columns">Common Name</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input id="columns" type="text" class="validate" ng-model="plant.lifeSpan">
+                                        <label for="columns">Lifespan</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="columns" type="text" class="validate" ng-model="plant.quantity_in_grams">
+                                        <label for="columns">Quantity(grams)</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="columns" type="text" class="validate" ng-model="plant.unit_per_gram">
+                                        <label for="columns">Unit per gram</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="cyan modal-action modal-close waves-effect waves-green btn" ng-click="addPlant(plant)">Save <i class="material-icons right">check</i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-field col s12 m4">
+                    <i class="material-icons prefix">search</i>
+                    <input id="icon_prefix" type="text" class="validate" ng-model="searchplant.commonName">
+                    <label for="icon_prefix">Search</label>
+                </div>
+
+		<div class="input-field col s12 m4">
+                    <select ng-model="">
+                        <option value="" disabled selected>Select filter</option>
+                        <option value="activityCode">Activity Code</option>
+                        <option value="plannedDate">Planned Date</option>
+                        <option value="actualDate">Actual Date</option>
+                        <option value="status">Status</option>
+                    </select>
+                
+                </div>
+
+               
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <table class="bordered responsive-table highlight">
+            <thead>
+                <tr>
+                    <th>Scientific Name</th>
+                    <th>Common Name</th>
+                    <th>Lifespan</th>
+                    <th>Quantity(grams)</th>
+                    <th>Unit per gram</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="a in plants | filter: searchplant">
+                    <td>{{a.scientificName}}</td>
+                    <td>{{a.commonName}}</td>
+                    <td>{{a.lifeSpan}}</td>
+                    <td>{{a.quantity_in_grams}}</td>
+                    <td>{{a.unit_per_gram}}</td>
+                    <td><a href="" data-target="editplant" ng-click="getCurrentPlant(a)"><i class="material-icons">mode_edit</i></a></td>
+                    <td><a href="" data-target="deleteplant" ng-click="getCurrentPlant(a)"><i class="material-icons">delete_forever</i></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--edit plant modal-->
+        <div id="editplant" class="modal">
+            <div class="modal-content">
+                <h4 class="cyan-text"><i class="small material-icons">mode_edit</i> Edit Plant</h4>
+                <li class="divider"></li><br>
+                <form>
+                    <div class="row">
+                        <div class="input-field col s12 m4">
+                            <input id="rows" type="text" class="validate" ng-model="currentPlant.scientificName">
+                            <label for="rows">Scientific Name</label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <input id="columns" type="text" class="validate" ng-model="currentPlant.commonName">
+                            <label for="columns">Common Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m4">
+                            <input id="columns" type="text" class="validate" ng-model="currentPlant.lifeSpan">
+                            <label for="columns">Lifespan</label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <input id="columns" type="text" class="validate" ng-model="currentPlant.quantity_in_grams">
+                            <label for="columns">Quantity(grams)</label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <input id="columns" type="text" class="validate" ng-model="currentPlant.unit_per_gram">
+                            <label for="columns">Unit per gram</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cyan modal-action modal-close waves-effect btn" ng-click="updatePlant(currentPlant)">Save Changes<i class="material-icons right">check</i></button>
+            </div>
+        </div>
+
+        <!--delete plant modal-->
+        <div id="deleteplant" class="modal">
+            <div class="modal-content">
+                <h4 class="cyan-text"><i class="small material-icons">delete_forever</i> Delete Plant</h4>
+                <li class="divider"></li>
+                <form>
+                    <div class="row">
+                        <div class="col s12 m12">
+                            <p>Do you really want to delete this plant?</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12">
+                            <table class="bordered responsive-table striped">
+                                <thead>
+                                    <tr>
+                                        <th>Scientific Name</th>
+                                        <th>Common Name</th>
+                                        <th>Lifespan</th>
+                                        <th>Quantity(grams)</th>
+                                        <th>Unit per gram</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{currentPlant.scientificName}}</td>
+                                        <td>{{currentPlant.commonName}}</td>
+                                        <td>{{currentPlant.lifeSpan}}</td>
+                                        <td>{{currentPlant.quantity_in_grams}}</td>
+                                        <td>{{currentPlant.unit_per_gram}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cyan darken-2 modal-action modal-close waves-effect btn right">No<i class="material-icons right">close</i></button>
+                <div></div>
+                <button class="cyan modal-action modal-close waves-effect btn" ng-click="deletePlant(currentPlant.scientificName)">Yes!<i class="material-icons right">check</i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--PLANTING ACTIVITY-->
+<div id="activity" class="col s12 container" ng-controller="PlantingActivityController">
+    <div class="row">
+        <form>
+            <div class="row">
+                
+                <div class="col s12 m4">
+                    <button class="btn waves-effect waves-light cyan" name="action" data-target="addactivity" style="margin-top: 20px;">
+                        Add Activity <i class="material-icons right">add_circle</i>
+                    </button>
+
+                    <!--add planting activity modal-->
+                    <div id="addactivity" class="modal">
+                        <div class="modal-content">
+                            <h4 class="cyan-text"><i class="small material-icons">add</i> Add Planting Activity</h4>
+                            <li class="divider"></li><br>
+                            <form>
+                                <div class="row">
+                                    <div class="col s12 m6">
+                                        <label>Choose plant</label>
+                                        <p ng-repeat="a in plants">
+                                            <input class="with-gap" name="group1" type="radio" id="{{a.scientificName}}" value="{{a.scientificName}}" ng-model="plantingActivity.scientificName_pa" />
+                                            <label for="{{a.scientificName}}">{{a.scientificName}}</label>
+                                        </p>
+                                    </div>
+                                    <div class="col s12 m6">
+                                        <div class="input-field row">
+                                            <input id="plannedDate" type="text" class="validate" placeholder="YYYY-MM-DD" ng-model="plantingActivity.plannedDate">
+                                            <label class="active" for="plannedDate">Planned Date</label>
+                                        </div>
+                                        <div class="input-field row">
+                                            <input id="quantity" type="text" class="validate" placeholder="in grams"ng-model="plantingActivity.quantity">
+                                            <label class="active" for="quantity">Quantity</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="cyan modal-action modal-close waves-effect waves-green btn" ng-click="addPlantingActivity(plantingActivity)">Request <i class="material-icons right">check</i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field col s12 m4">
+                    <i class="material-icons prefix">search</i>
+                    <input id="icon_prefix" type="text" class="validate" ng-model="searchActivity.activityCode">
+                    <label for="icon_prefix">Search</label>
+                </div>
+		<div class="input-field col s12 m4">
+                    <select ng-model="plot.status">
+                        <option value="" disabled selected>Select filter</option>
+                        <option value="plotno">Plot Number</option>
+                        <option value="area">Area</option>
+                        <option value="status">Status</option>
+                    </select>
+                
+                </div>
+                
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <table class="bordered highlight">
+            <thead>
+                <tr>
+                    <th>Activity Code</th>
+                    <th>Plant</th>
+                    <th>Quantity</th>
+                    <th>No. of Plots</th>
+                    <th>Planned Date</th>
+                    <th>Actual Date</th>
+                    <th>In-charge</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="a in plantingActivities | filter: searchActivity">
+                    <td>{{a.activityCode}}</td>
+                    <td>{{a.scientificName_pa}}</td>
+                    <td>{{a.quantity}}</td>
+                    <td>{{a.noofPlots}}</td>
+                    <td>{{a.plannedDate}}</td>
+                    <td>{{a.actualDate}}</td>
+                    <td>{{a.userid_pa}}</td>
+                    <td>{{a.status}}</td>
+                    <td><a href="" data-target="editactivity" ng-click="getCurrentActivity(a)"><i class="material-icons">mode_edit</i></a></td>
+                    <td><a href="" data-target="deleteactivity" ng-click="getCurrentActivity(a)"><i class="material-icons">delete_forever</i></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--edit planting activity modal-->
+        <div id="editactivity" class="modal">
+            <div class="modal-content">
+                <h4 class="cyan-text"><i class="small material-icons">add</i> Edit Planting Activity</h4>
+                <li class="divider"></li><br>
+                <form>
+                    <div class="row">
+                        <div class="input-field col s12 m4">
+                            <input id="activityCode" type="text" class="validate" ng-model="currentActivity.activityCode">
+                            <label class="active" for="activityCode">Activity Code</label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <input id="plannedDate" type="text" class="validate" placeholder="YYYY-MM-DD" ng-model="currentActivity.plannedDate">
+                            <label class="active" for="plannedDate">Planned Date</label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <input id="actualDate" type="text" class="validate" placeholder="YYYY-MM-DD" ng-model="currentActivity.actualDate">
+                            <label class="active" for="actualDate">Actual Date</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <label>Select In-charge Personnel</label>
+                            <p ng-repeat="a in users">
+                                <input class="with-gap" name="group2" type="radio" id="{{a.userid}}" value="{{a.userid}}" ng-model="currentActivity.userid_pa">
+                                <label for="{{a.userid}}">{{a.userid}}</label>
+                            </p>
+                        </div>
+                        <div class="col s12 m4">
+                            <label>Choose plant</label>
+                            <p ng-repeat="a in plants">
+                                <input class="with-gap" name="group1" type="radio" id="{{a.scientificName}}" value="{{a.scientificName}}" ng-model="currentActivity.scientificName_pa">
+                                <label for="{{a.scientificName}}">{{a.scientificName}}</label>
+                            </p>
+                        </div>
+                        <div class="input-field col s12 m2">
+                            <input id="quantity" type="text" class="validate" ng-model="currentActivity.quantity">
+                            <label class="active" for="quantity">Quantity</label>
+                        </div>
+                        <div class="input-field col s12 m2">
+                            <input id="noofPlots" type="text" class="validate" ng-model="currentActivity.noofPlots">
+                            <label class="active" for="noofPlots">No. of Plots</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cyan modal-action modal-close waves-effect waves-green btn" ng-click="updatePlantingActivity(currentActivity)">Save Changes <i class="material-icons right">check</i></button>
+            </div>
+        </div>
+
+        <!--delete planting activity modal-->
+        <div id="deleteactivity" class="modal">
+            <div class="modal-content">
+                <h4 class="cyan-text"><i class="small material-icons">delete_forever</i> Delete Request</h4>
+                <li class="divider"></li>
+                <form>
+                    <div class="row">
+                        <div class="col s12 m12">
+                            <p>Do you really want to delete this planting activity request?</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12">
+                            <table class="bordered responsive-table striped">
+                                <thead>
+                                    <tr>
+                                        <th>Activity Code</th>
+                                        <th>Plant</th>
+                                        <th>Quantity</th>
+                                        <th>No. of Plots</th>
+                                        <th>Planned Date</th>
+                                        <th>Actual Date</th>
+                                        <th>In-charge</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{currentActivity.activityCode}}</td>
+                                        <td>{{currentActivity.scientificName_pa}}</td>
+                                        <td>{{currentActivity.quantity}}</td>
+                                        <td>{{currentActivity.noofPlots}}</td>
+                                        <td>{{currentActivity.plannedDate}}</td>
+                                        <td>{{currentActivity.actualDate}}</td>
+                                        <td>{{currentActivity.userid_pa}}</td>
+                                        <td>{{currentActivity.status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cyan darken-2 modal-action modal-close waves-effect btn right">No<i class="material-icons right">close</i></button>
+                <div></div>
+                <button class="cyan modal-action modal-close waves-effect btn" ng-click="deletePlantingActivity(currentActivity.activityCode)">Yes!<i class="material-icons right">check</i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--PLOT-->
+<div id="plot" class="col s12 container" ng-controller="PlotController">
+    <div class="row">
+        <form>
+            <div class="row">
+                <div class="col s12 m2"></div>
+                <div class="col s12 m3">
+                    <button class="btn waves-effect waves-light cyan modal-trigger" data-target="addplot" name="action" style="margin-top: 20px;">
+                        Add Plot <i class="material-icons right">add_circle</i>
+                    </button>
+
+                    <!--add plot modal-->
+                    <div id="addplot" class="modal">
+                        <div class="modal-content">
+                            <h4 class="cyan-text"><i class="small material-icons">add</i> Add Plot</h4>
+                            <li class="divider"></li><br>
+                            <form>
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input id="rows" type="text" class="validate" ng-model="plot.rows">
+                                        <label for="rows">Rows</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input id="columns" type="text" class="validate" ng-model="plot.columns">
+                                        <label for="columns">Columns</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="cyan modal-action modal-close waves-effect waves-green btn" ng-click="addPlot(plot)">Save <i class="material-icons right">check</i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-field col s12 m4">
+                    <i class="material-icons prefix">search</i>
+                    <input id="icon_prefix" type="text" class="validate" ng-model="searchplot.plotno">
+                    <label for="icon_prefix">Search</label>
+                </div>
+                <div class="col s12 m3"></div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <table class="bordered responsive-table highlight">
+            <thead>
+                <tr>
+                    <th>Plot #</th>
+                    <th>Area</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="a in plots | filter: searchplot">
+                    <td>{{a.plotno}}</td>
+                    <td>{{a.area}}</td>
+                    <td>{{a.status}}</td>
+                    <td><a href="" data-target="editplot" ng-click="getCurrentPlot(a)"><i class="material-icons">mode_edit</i></a></td>
+                    <td><a href="" data-target="deleteplot" ng-click="getCurrentPlot(a)"><i class="material-icons">delete_forever</i></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--edit plot modal-->
+        <div id="editplot" class="modal">
+            <div class="modal-content">
+                <h4 class="cyan-text"><i class="small material-icons">mode_edit</i> Edit Plot</h4>
+                <li class="divider"></li><br>
+                <form>
+                    <div class="row">
+                        <div class="input-field col s12 m4">
+                            <input id="rows" type="text" class="validate" ng-model="currentPlot.rows">
+                            <label class="active" for="rows">Rows</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m4">
+                            <input id="columns" type="text" class="validate" ng-model="currentPlot.columns">
+                            <label class="active" for="columns">Columns</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cyan modal-action modal-close waves-effect btn" ng-click="updatePlot(currentPlot)">Save Changes<i class="material-icons right">check</i></button>
+            </div>
+        </div>
+
+        <!--delete plot modal-->
+        <div id="deleteplot" class="modal">
+            <div class="modal-content">
+                <h4 class="cyan-text"><i class="small material-icons">delete_forever</i> Delete Plot</h4>
+                <li class="divider"></li>
+                <form>
+                    <div class="row">
+                        <div class="col s12 m12">
+                            <p>Do you really want to delete this plot?</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12">
+                            <table class="bordered responsive-table striped">
+                                <thead>
+                                    <tr>
+                                        <th>Plot #</th>
+                                        <th>Area</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{currentPlot.plotno}}</td>
+                                        <td>{{currentPlot.area}}</td>
+                                        <td>{{currentPlot.status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cyan darken-2 modal-action modal-close waves-effect btn right">No<i class="material-icons right">close</i></button>
+                <div></div>
+                <button class="cyan modal-action modal-close waves-effect btn" ng-click="deletePlot(currentPlot.plotno)">Yes!<i class="material-icons right">check</i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="../assets/js/custom.js"></script>
